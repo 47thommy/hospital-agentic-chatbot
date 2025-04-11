@@ -1,6 +1,6 @@
 import os
-from langchain_community.graphs import Neo4jGraph
-from langchain.chains import GraphCypherQAChain
+from langchain_neo4j import Neo4jGraph
+from langchain_neo4j import GraphCypherQAChain
 from langchain_openai import ChatOpenAI
 from langchain.prompts import PromptTemplate
 
@@ -144,4 +144,18 @@ Helpful Answer:
 
 qa_generation_prompt = PromptTemplate(
     input_variables=["context", "question"], template=qa_generation_template
+)
+
+# ...
+
+hospital_cypher_chain = GraphCypherQAChain.from_llm(
+    cypher_llm=ChatOpenAI(model=HOSPITAL_CYPHER_MODEL, temperature=0),
+    qa_llm=ChatOpenAI(model=HOSPITAL_QA_MODEL, temperature=0),
+    graph=graph,
+    verbose=True,
+    qa_prompt=qa_generation_prompt,
+    cypher_prompt=cypher_generation_prompt,
+    validate_cypher=True,
+    top_k=100,
+    allow_dangerous_requests = True
 )

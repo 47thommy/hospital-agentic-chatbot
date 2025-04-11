@@ -13,6 +13,7 @@ dependencies = [
     "opentelemetry-api==1.22.0",
     "pydantic==2.5.1",
     "uvicorn==0.25.0"
+    "langchain-neo4j"
 ]
 
 [project.optional-dependencies]
